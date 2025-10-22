@@ -19,34 +19,38 @@ class Book {
     public function getById($id) {
         $conn = $this->db->connect();
         $stmt = $conn->prepare("SELECT * FROM {$this->table} WHERE id = :id");
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function create($titulo, $autor, $año) {
+    public function create($titulo, $autor, $anio) {
         $conn = $this->db->connect();
-        $stmt = $conn->prepare("INSERT INTO {$this->table} (titulo, autor, año) VALUES (:titulo, :autor, :año)");
-        $stmt->bindParam(':titulo', $titulo);
-        $stmt->bindParam(':autor', $autor);
-        $stmt->bindParam(':año', $año);
+        $stmt = $conn->prepare("INSERT INTO {$this->table} (titulo, autor, anio) VALUES (:titulo, :autor, :anio)");
+        
+        $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
+        $stmt->bindParam(':autor', $autor, PDO::PARAM_STR);
+        $stmt->bindParam(':anio', $anio, PDO::PARAM_INT);
+        
         return $stmt->execute();
     }
 
-    public function update($id, $titulo, $autor, $año) {
+    public function update($id, $titulo, $autor, $anio) {
         $conn = $this->db->connect();
-        $stmt = $conn->prepare("UPDATE {$this->table} SET titulo = :titulo, autor = :autor, año = :año WHERE id = :id");
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':titulo', $titulo);
-        $stmt->bindParam(':autor', $autor);
-        $stmt->bindParam(':año', $año);
+        $stmt = $conn->prepare("UPDATE {$this->table} SET titulo = :titulo, autor = :autor, anio = :anio WHERE id = :id");
+        
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':titulo', $titulo, PDO::PARAM_STR);
+        $stmt->bindParam(':autor', $autor, PDO::PARAM_STR);
+        $stmt->bindParam(':anio', $anio, PDO::PARAM_INT);
+        
         return $stmt->execute();
     }
 
     public function delete($id) {
         $conn = $this->db->connect();
         $stmt = $conn->prepare("DELETE FROM {$this->table} WHERE id = :id");
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
 }

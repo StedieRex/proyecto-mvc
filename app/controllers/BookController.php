@@ -15,20 +15,20 @@ class BookController {
 
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $titulo = trim($_POST['titulo']);
-            $autor = trim($_POST['autor']);
-            $año = intval($_POST['año']);
+            $titulo = trim(htmlspecialchars($_POST['titulo']));
+            $autor = trim(htmlspecialchars($_POST['autor']));
+            $anio = intval($_POST['año']); // El formulario sigue usando name="año"
 
-            if (!empty($titulo) && !empty($autor) && $año > 0) {
+            if (!empty($titulo) && !empty($autor) && $anio > 1000 && $anio <= date('Y')) {
                 $bookModel = new Book();
-                if ($bookModel->create($titulo, $autor, $año)) {
+                if ($bookModel->create($titulo, $autor, $anio)) {
                     header('Location: /proyecto-mvc/book');
                     exit;
                 }
             }
         }
-        // Si hay error, volver al formulario
         header('Location: /proyecto-mvc/book/add');
+        exit;
     }
 }
 ?>

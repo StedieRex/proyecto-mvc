@@ -30,7 +30,7 @@
                         <td><?php echo htmlspecialchars($book['id']); ?></td>
                         <td><?php echo htmlspecialchars($book['titulo']); ?></td>
                         <td><?php echo htmlspecialchars($book['autor']); ?></td>
-                        <td><?php echo htmlspecialchars($book['año']); ?></td>
+                        <td><?php echo htmlspecialchars($book['anio']); ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
