@@ -13,6 +13,9 @@ $url = explode('/', filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL));
 $controllerName = ucfirst($url[0]) . 'Controller';
 $methodName = isset($url[1]) ? $url[1] : 'index';
 
+// Si hay más parámetros (como ID para delete, show, etc.)
+$params = array_slice($url, 2);
+
 // Ruta del archivo del controlador
 $controllerFile = BASE_PATH . '/app/controllers/' . $controllerName . '.php';
 
@@ -26,7 +29,12 @@ if (file_exists($controllerFile)) {
         
         // Verificar si existe el método
         if (method_exists($controller, $methodName)) {
-            $controller->$methodName();
+            // Pasar parámetros si existen
+            if (!empty($params)) {
+                $controller->$methodName(...$params);
+            } else {
+                $controller->$methodName();
+            }
         } else {
             http_response_code(404);
             echo "Error 404: Método '$methodName' no encontrado en $controllerName";
